@@ -71,7 +71,7 @@ export const UserProvider = ({ children }) => {
     const signin = async (payload, callback = () => null) => {
         dispatch({ type: 'SET_LOADING' });
         try {
-            const response = await fetch(`http://1cc6f4d8e4b8.ngrok.io/signin`, {
+            const response = await fetch(`http://f4c7f05351c8.ngrok.io/signin`, {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',
@@ -83,7 +83,6 @@ export const UserProvider = ({ children }) => {
             await SecureStore.setItemAsync('userToken', token);
             dispatch({ type: 'SIGN_IN', token });
         } catch (error) {
-            console.log(error)
             dispatch({ type: 'SET_ERROR', errorMessage: 'Something went wrong.' });
             await delay(3000)
             dispatch({ type: 'SET_ERROR', errorMessage: '' });
@@ -93,7 +92,7 @@ export const UserProvider = ({ children }) => {
     const signup = async (payload, callback = () => null) => {
         dispatch({ type: 'SET_LOADING' });
         try {
-            const response = await fetch(`http://1cc6f4d8e4b8.ngrok.io/signup`, {
+            const response = await fetch(`http://f4c7f05351c8.ngrok.io/signup`, {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',
