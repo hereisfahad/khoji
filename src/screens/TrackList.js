@@ -1,14 +1,40 @@
-import React from 'react'
-import { StyleSheet, Text, View, Button } from 'react-native'
+import React, { useEffect, useContext } from 'react'
+import { useIsFocused } from '@react-navigation/core';
+import { StyleSheet, View } from 'react-native'
+import { ListItem } from 'react-native-elements'
+import LocationContext from '../contexts/Location';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
-const TrackList = ({ navigation }) => {
+const TrackList = ({ navigation: { navigate } }) => {
+  const { fetchTracks, tracks } = useContext(LocationContext)
+  const isFocused = useIsFocused()
+
+  useEffect(() => {
+    if (isFocused) {
+      fetchTracks()
+    }
+  }, [isFocused])
+
   return (
-    <View>
-      <Text style={styles.pageTitle}>TrackList</Text>
-      <Button
-        title="Go to Details"
-        onPress={() => navigation.navigate('TrackDetail')}
-      />
+    <View style={styles.container}>
+      {
+        tracks.map(track => (
+          <TouchableOpacity
+            key={track._id}
+            style={styles.listItem}
+            onPress={() => {
+              navigate('TrackDetail', { track }) 
+            }}
+          >
+            <ListItem>
+              <ListItem.Content>
+                <ListItem.Title style={styles.listTitle}>{track.name}</ListItem.Title>
+              </ListItem.Content>
+              <ListItem.Chevron />
+            </ListItem>
+          </TouchableOpacity>
+        ))
+      }
     </View>
   )
 }
@@ -17,35 +43,19 @@ export default TrackList
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#fff',
+    marginVertical: 10,
     height: '100%'
   },
-  pageTitle: {
-    fontWeight: 'bold',
-    marginTop: 10,
-    fontSize: 50,
-    alignSelf: 'center'
-  },
-  addBlog: {
-    backgroundColor: 'skyblue',
-    marginVertical: 6,
-    paddingVertical: 6,
-    paddingHorizontal: 10,
-    borderRadius: 6,
-    alignSelf: 'center'
-  },
-  row: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'baseline',
+  listItem: {
+    overflow: 'hidden',
+    marginVertical: 4,
     marginHorizontal: 10,
-    marginVertical: 5,
-    paddingVertical: 10,
-    borderBottomWidth: 1,
-    borderBottomColor: 'gray'
+    borderWidth: 1,
+    borderColor: '#fff',
+    borderRadius: 8
   },
-  blogTitle: {
-    color: 'gray',
-    fontWeight: 'bold'
-  },
+  listTitle: {
+    fontWeight: 'bold',
+    fontSize: 18,
+  }
 });
