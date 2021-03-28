@@ -78,7 +78,7 @@ export const LocationProvider = ({ children }) => {
 
     const saveTrack = async (trackName, locations) => {
         const userToken = await SecureStore.getItemAsync('userToken');
-        await fetch(`http://f4c7f05351c8.ngrok.io/tracks`, {
+        await fetch(`https://khoji-api.herokuapp.com/tracks`, {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -92,7 +92,7 @@ export const LocationProvider = ({ children }) => {
     const fetchTracks = async () => {
         try {
             const userToken = await SecureStore.getItemAsync('userToken');
-            const resp = await fetch(`http://f4c7f05351c8.ngrok.io/tracks`, {
+            const resp = await fetch(`https://khoji-api.herokuapp.com/tracks`, {
                 method: 'GET',
                 headers: {
                     'Accept': 'application/json',

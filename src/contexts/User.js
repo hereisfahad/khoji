@@ -71,7 +71,7 @@ export const UserProvider = ({ children }) => {
     const signin = async (payload, callback = () => null) => {
         dispatch({ type: 'SET_LOADING' });
         try {
-            const response = await fetch(`http://f4c7f05351c8.ngrok.io/signin`, {
+            const response = await fetch(`https://khoji-api.herokuapp.com/signin`, {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',
@@ -92,7 +92,7 @@ export const UserProvider = ({ children }) => {
     const signup = async (payload, callback = () => null) => {
         dispatch({ type: 'SET_LOADING' });
         try {
-            const response = await fetch(`http://f4c7f05351c8.ngrok.io/signup`, {
+            const response = await fetch(`https://khoji-api.herokuapp.com/signup`, {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',
