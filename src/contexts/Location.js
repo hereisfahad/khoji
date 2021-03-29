@@ -8,11 +8,14 @@ const initialState = {
     trackName: '',
     locations: [],
     currentLocation: null,
+    isLoading: false,
     tracks: []
 }
 
 const locationReducer = (prevState, action) => {
     switch (action.type) {
+        case 'SET_LOADING':
+            return { ...prevState, isLoading: true }
         case 'RESET_REDUCER':
             return initialState
         case 'SET_TRACK_TITLE':
@@ -43,7 +46,8 @@ const locationReducer = (prevState, action) => {
         case 'SET_TRACKS':
             return {
                 ...prevState,
-                tracks: action.tracks
+                tracks: action.tracks,
+                isLoading: false
             }
         default:
             return prevState
@@ -90,6 +94,7 @@ export const LocationProvider = ({ children }) => {
     }
 
     const fetchTracks = async () => {
+        dispatch({ type: 'SET_LOADING' })
         try {
             const userToken = await SecureStore.getItemAsync('userToken');
             const resp = await fetch(`https://khoji-api.herokuapp.com/tracks`, {

@@ -1,12 +1,12 @@
 import React, { useEffect, useContext } from 'react'
 import { useIsFocused } from '@react-navigation/core';
-import { StyleSheet, View } from 'react-native'
+import { StyleSheet, View, ActivityIndicator } from 'react-native'
 import { ListItem } from 'react-native-elements'
 import LocationContext from '../contexts/Location';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
 const TrackList = ({ navigation: { navigate } }) => {
-  const { fetchTracks, tracks } = useContext(LocationContext)
+  const { fetchTracks, isLoading, tracks } = useContext(LocationContext)
   const isFocused = useIsFocused()
 
   useEffect(() => {
@@ -18,22 +18,26 @@ const TrackList = ({ navigation: { navigate } }) => {
   return (
     <View style={styles.container}>
       {
-        tracks.map(track => (
-          <TouchableOpacity
-            key={track._id}
-            style={styles.listItem}
-            onPress={() => {
-              navigate('TrackDetail', { track }) 
-            }}
-          >
-            <ListItem>
-              <ListItem.Content>
-                <ListItem.Title style={styles.listTitle}>{track.name}</ListItem.Title>
-              </ListItem.Content>
-              <ListItem.Chevron />
-            </ListItem>
-          </TouchableOpacity>
-        ))
+        isLoading ? (
+          <ActivityIndicator  size="large" color="#0000ff"  />
+        ) : (
+          tracks.map(track => (
+            <TouchableOpacity
+              key={track._id}
+              style={styles.listItem}
+              onPress={() => {
+                navigate('TrackDetail', { track })
+              }}
+            >
+              <ListItem>
+                <ListItem.Content>
+                  <ListItem.Title style={styles.listTitle}>{track.name}</ListItem.Title>
+                </ListItem.Content>
+                <ListItem.Chevron />
+              </ListItem>
+            </TouchableOpacity>
+          ))
+        )
       }
     </View>
   )
